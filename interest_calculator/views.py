@@ -27,7 +27,7 @@ def calculate(request):
     for x in range(number_of_months):
         current_balance = current_balance + monthly_deposit
 
-        if x % number_of_months_before_applying_interest == 0:
+        if (x+1) % number_of_months_before_applying_interest == 0:
             current_balance = math.floor(current_balance * interest_calc)
 
         monthly_balance.append(current_balance)

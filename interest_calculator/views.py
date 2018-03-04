@@ -10,8 +10,9 @@ def calculate(request):
     current_balance = params.get('currentBalance', None)
     monthly_deposit = params.get('monthlyDeposit', None)
     interest_rate = params.get('interestRate', None)
+    compound_period = params.get('compoundPeriod', None)
 
-    if current_balance is None or monthly_deposit is None or interest_rate is None:
+    if current_balance is None or monthly_deposit is None or interest_rate is None or compound_period is None:
         return HttpResponseBadRequest('Required parameters are not provided')
 
     monthly_balance = []

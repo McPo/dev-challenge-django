@@ -7,7 +7,7 @@ class InterestCalculatorTestCase(TestCase):
 
     def test_calculate(self):
         c = Client()
-        response = c.post('/calculate/', json.dumps({'currentBalance': 0, 'monthlyDeposit': 0, 'interestRate': 0}), content_type="application/json")
+        response = c.post('/calculate/', json.dumps({'currentBalance': 0, 'monthlyDeposit': 0, 'interestRate': 0, 'compoundPeriod': 'monthly'}), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
         json_response = json.loads(response.content)

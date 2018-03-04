@@ -1,12 +1,14 @@
 import json
 from django.test import TestCase, Client
 
+from parameterized import parameterized
+
+# Results tested against https://www.thecalculatorsite.com/finance/calculators/compoundinterestcalculator.php#compoundinterval
+# However due to rounding issues they were slightly adjusted < £1
 class InterestCalculatorTestCase(TestCase):
     def setUp(self):
         pass
 
-    # Results tested against https://www.thecalculatorsite.com/finance/calculators/compoundinterestcalculator.php#compoundinterval
-    # However due to rounding issues they were slightly adjusted < £1
     def test_calculate_monthly(self):
         request = {
             'currentBalance': 10,
@@ -58,39 +60,13 @@ class InterestCalculatorTestCase(TestCase):
         self.assertEqual(monthly_balance[0], 110.00)
         self.assertEqual(monthly_balance[-1], 77869.08)
 
-    def test_calculate_missing_current_balance(self):
-        request = {
-            'monthlyDeposit': 100,
-            'interestRate': 1,
-            'compoundPeriod': 'quarterly'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_calculate_missing_monthly_deposit(self):
-        request = {
-            'currentBalance': 10,
-            'interestRate': 1,
-            'compoundPeriod': 'quarterly'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_calculate_missing_interest_rate(self):
-        request = {
-            'currentBalance': 10,
-            'monthlyDeposit': 100,
-            'compoundPeriod': 'quarterly'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_calculate_missing_compound_period(self):
-        request = {
-            'currentBalance': 10,
-            'monthlyDeposit': 100,
-            'interestRate': 1
-        }
+    @parameterized.expand([
+        ('current_balance', { 'monthlyDeposit': 100, 'interestRate': 1, 'compoundPeriod': 'quarterly' }),
+        ('monthly_deposit', { 'currentBalance': 10, 'interestRate': 1, 'compoundPeriod': 'quarterly' }),
+        ('interest_rate', { 'currentBalance': 10, 'monthlyDeposit': 100, 'compoundPeriod': 'quarterly' }),
+        ('compound_period', { 'currentBalance': 10, 'monthlyDeposit': 100, 'interestRate': 1 })
+    ])
+    def test_calculate_missing_current_balance(self, name, request):
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 400)
 

@@ -6,14 +6,22 @@ const App = props => <div className="App">
     <header className="App-header">
         <h1 className="App-title">Finimize dev challenge</h1>
     </header>
-    <p className="App-intro">
-        { props.loading ? 'Loading...' : `Result: ${props.result}` }
-    </p>
+    <input placeholder="Initial Account Balance" type="number" min="0" />
+    <input placeholder="Monthly Deposits" type="number" min="0" />
+    <input placeholder="Interest Rate" type="number" min="0" />
+    <select defaultValue="">
+        <option value="" disabled hidden>Compounded every...</option>
+        <option value="monthly">Month</option>
+        <option value="yearly">Year</option>
+    </select>
+    <ol>
+        { props.futureMonthlyBalance.map((b, i) => <li key={ i }>{ b }</li>) }
+    </ol>
 </div>;
 
 App.propTypes = {
     loading: PropTypes.bool.isRequired,
-    result: PropTypes.number.isRequired,
+    futureMonthlyBalance: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
 };
 
 export default App;

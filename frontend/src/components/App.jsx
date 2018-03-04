@@ -6,14 +6,15 @@ const App = props => <div className="App">
     <header className="App-header">
         <h1 className="App-title">Finimize dev challenge</h1>
     </header>
-    <input placeholder="Initial Account Balance" type="number" min="0" />
-    <input placeholder="Monthly Deposits" type="number" min="0" />
-    <input placeholder="Interest Rate" type="number" min="0" />
-    <select defaultValue="">
-        <option value="" disabled hidden>Compounded every...</option>
-        <option value="monthly">Month</option>
-        <option value="yearly">Year</option>
-    </select>
+    <form>
+        <input placeholder="Initial Account Balance" type="number" min="0" defaultValue={ props.currentBalance } onChange={ props.onCurrentBalanceChange } />
+        <input placeholder="Monthly Deposits" type="number" min="0" defaultValue={ props.monthlyDeposit } onChange={ props.onMonthlyDepositChange } />
+        <input placeholder="Interest Rate" type="number" min="0" defaultValue={ props.interestRate } onChange={ props.onInterestRateChange } />
+        <select  defaultValue={ props.compoundPeriod } onChange={ props.onCompoundPeriodChange } >
+            <option value="monthly">Month</option>
+            <option value="yearly">Year</option>
+        </select>
+    </form>
     <ol>
         { props.futureMonthlyBalance.map((b, i) => <li key={ i }>{ b }</li>) }
     </ol>

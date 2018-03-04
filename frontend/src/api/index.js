@@ -1,4 +1,4 @@
-import calculator from './calculator';
+import * as calculator from './calculator';
 
 export default {
     calculator

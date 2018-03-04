@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import App from '../components/App';
 
 const mapStateToProps = (state, props) => ({
-	loading: false,
-	result: 1000
+	loading: state.app.loading,
+	result: state.app.result,
 });
 
 export default connect(mapStateToProps)(App);

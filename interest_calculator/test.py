@@ -80,42 +80,12 @@ class InterestCalculatorTestCase(TestCase):
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 400)
 
-    def test_calculate_invalid_type_monthly_deposit(self):
-        request = {
-            'currentBalance': '10',
-            'monthlyDeposit': 100,
-            'interestRate': 1,
-            'compoundPeriod': 'quarterly'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_calculate_invalid_type_monthly_deposit(self):
-        request = {
-            'currentBalance': 10,
-            'monthlyDeposit': '100',
-            'interestRate': 1,
-            'compoundPeriod': 'quarterly'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_calculate_invalid_type_interest_rate(self):
-        request = {
-            'currentBalance': 10,
-            'monthlyDeposit': 100,
-            'interestRate': '1',
-            'compoundPeriod': 'quarterly'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_calculate_invalid_type_compound_period(self):
-        request = {
-            'currentBalance': 10,
-            'monthlyDeposit': 100,
-            'interestRate': 1,
-            'compoundPeriod': 0
-        }
+    @parameterized.expand([
+        ('current_balance', { 'currentBalance': '10', 'monthlyDeposit': 100, 'interestRate': 1, 'compoundPeriod': 'quarterly' }),
+        ('monthly_deposit', { 'currentBalance': 10, 'monthlyDeposit': '100', 'interestRate': 1, 'compoundPeriod': 'quarterly' }),
+        ('interest_rate', { 'currentBalance': 10, 'monthlyDeposit': 100, 'interestRate': '1', 'compoundPeriod': 'quarterly' }),
+        ('compound_period', { 'currentBalance': 10, 'monthlyDeposit': 100, 'interestRate': 1, 'compoundPeriod': 0 })
+    ])
+    def test_calculate_invalid_type(self, name, request):
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 400)

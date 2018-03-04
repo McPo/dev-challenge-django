@@ -57,3 +57,39 @@ class InterestCalculatorTestCase(TestCase):
         self.assertEqual(len(monthly_balance), 600)
         self.assertEqual(monthly_balance[0], 110.00)
         self.assertEqual(monthly_balance[-1], 77869.08)
+
+    def test_calculate_missing_current_balance(self):
+        request = {
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': ''
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_missing_monthly_deposit(self):
+        request = {
+            'currentBalance': 10,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly'
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_missing_interest_rate(self):
+        request = {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'compoundPeriod': 'quarterly'
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_missing_compound_period(self):
+        request = {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)

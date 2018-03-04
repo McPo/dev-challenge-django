@@ -17,17 +17,17 @@ def calculate(request):
     if current_balance is None or monthly_deposit is None or interest_rate is None or compound_period is None:
         return HttpResponseBadRequest('Required parameters are not provided')
 
-    interest_calc = 1 + interest_rate / 100
+    divide_monthly_interest_rate_by = {'monthly': 12, 'quarterly': 4, 'yearly': 1}[compound_period]
+    number_of_months_before_applying_interest = {'monthly': 1, 'quarterly': 3, 'yearly': 12}[compound_period]
+
+    interest_calc = 1 + (interest_rate / divide_monthly_interest_rate_by) / 100
+
     monthly_balance = []
     number_of_months = 50 * 12
     for x in range(number_of_months):
         current_balance = current_balance + monthly_deposit
 
-        if (
-            compound_period == 'monthly'
-            or (compound_period == 'yearly' and x%12 == 0)
-            or (compound_period == 'quarterly' and x%3 == 0)
-        ):
+        if x % number_of_months_before_applying_interest == 0:
             current_balance = math.floor(current_balance * interest_calc)
 
         monthly_balance.append(current_balance)

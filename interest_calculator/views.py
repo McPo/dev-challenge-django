@@ -14,20 +14,25 @@ def calculate(request):
     interest_rate = params.get('interestRate', None)
     compound_period = params.get('compoundPeriod', None)
 
-    if current_balance is None or monthly_deposit is None or interest_rate is None or compound_period is None:
-        return HttpResponseBadRequest('Required parameters are not provided')
+    # Quick way to make sure parameters exist, are of the correct type and within the right range
+    # Should probably be using django form validators
+    try:
+        if current_balance < 0 or monthly_deposit < 0 or interest_rate < 0 or not compound_period in ['monthly', 'quarterly', 'yearly']:
+            return HttpResponseBadRequest('Invalid or missing parameters')
+    except:
+        return HttpResponseBadRequest('Invalid or missing parameters')
 
+    # Interest is calculated monthly but applied either monthly, quarterly or yearly
+    monthly_interest_calc = (interest_rate / 100) / 12
     number_of_months_before_applying_interest = {'monthly': 1, 'quarterly': 3, 'yearly': 12}[compound_period]
 
-    interest_calc = (interest_rate / 100) / 12
-
     monthly_balance = []
-    number_of_months = 50 * 12
     outstanding_interest = 0
+    number_of_months = 50 * 12
     for x in range(number_of_months):
         current_balance += monthly_deposit
 
-        outstanding_interest += current_balance * interest_calc
+        outstanding_interest += current_balance * monthly_interest_calc
         if (x+1) % number_of_months_before_applying_interest == 0:
             current_balance = round(current_balance + outstanding_interest, 2)
             outstanding_interest = 0

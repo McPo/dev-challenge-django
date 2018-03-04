@@ -62,7 +62,7 @@ class InterestCalculatorTestCase(TestCase):
         request = {
             'monthlyDeposit': 100,
             'interestRate': 1,
-            'compoundPeriod': ''
+            'compoundPeriod': 'quarterly'
         }
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 400)
@@ -90,6 +90,46 @@ class InterestCalculatorTestCase(TestCase):
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_invalid_range_current_balance(self):
+        request = {
+            'currentBalance': -1,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly'
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_invalid_range_monthly_deposit(self):
+        request = {
+            'currentBalance': 10,
+            'monthlyDeposit': -1,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly'
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_invalid_range_interest_rate(self):
+        request = {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': -1,
+            'compoundPeriod': 'quarterly'
+        }
+        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_calculate_invalid_range_compound_period(self):
+        request = {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'daily'
         }
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 400)

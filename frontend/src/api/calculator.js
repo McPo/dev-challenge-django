@@ -1,6 +1,6 @@
 import request from "axios"
 
-export const calculate = (savingsAmount, interestRate) => {
+export const calculateFutureSavings = (savingsAmount, interestRate) => {
 	return request
 		.post("/calculate/", {
 			savingsAmount,

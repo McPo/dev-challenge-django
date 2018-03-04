@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../styles/App.css';
+import '../styles/App.css';
 
 const App = props => <div className="App">
     <header className="App-header">

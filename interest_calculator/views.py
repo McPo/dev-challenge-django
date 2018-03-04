@@ -1,7 +1,9 @@
+import json
+import math
+
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-import json
 
 @require_POST
 @csrf_exempt
@@ -18,7 +20,7 @@ def calculate(request):
     monthly_balance = []
     number_of_months = 50 * 12
     for x in range(number_of_months):
-        current_balance = (current_balance + monthly_deposit) * (interest_rate / 100)
+        current_balance = math.floor((current_balance + monthly_deposit) * (1 + (interest_rate / 100)))
         monthly_balance.append(current_balance)
 
     return JsonResponse({'monthly_balance': monthly_balance})

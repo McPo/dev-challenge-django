@@ -4,7 +4,7 @@ export default (state = {
     interestRate: 0,
     compoundPeriod: 'monthly',
     loading: false,
-    futureMonthlyBalance: [1001]
+    futureMonthlyBalance: []
 }, action) => {
 	switch (action.type) {
         case 'CALCULATE_FUTURE_MONTHLY_BALANCE_PENDING':

@@ -17,10 +17,19 @@ def calculate(request):
     if current_balance is None or monthly_deposit is None or interest_rate is None or compound_period is None:
         return HttpResponseBadRequest('Required parameters are not provided')
 
+    interest_calc = 1 + interest_rate / 100
     monthly_balance = []
     number_of_months = 50 * 12
     for x in range(number_of_months):
-        current_balance = math.floor((current_balance + monthly_deposit) * (1 + (interest_rate / 100)))
+        current_balance = current_balance + monthly_deposit
+
+        if (
+            compound_period == 'monthly'
+            or (compound_period == 'yearly' and x%12 == 0)
+            or (compound_period == 'quarterly' and x%3 == 0)
+        ):
+            current_balance = math.floor(current_balance * interest_calc)
+
         monthly_balance.append(current_balance)
 
     return JsonResponse({'monthly_balance': monthly_balance})

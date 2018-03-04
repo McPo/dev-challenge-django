@@ -7,10 +7,17 @@ import json
 @csrf_exempt
 def calculate(request):
     params = json.loads(request.body)
-    savings_amount = params.get('savingsAmount', None)
+    current_balance = params.get('currentBalance', None)
+    monthly_deposit = params.get('monthlyDeposit', None)
     interest_rate = params.get('interestRate', None)
 
-    if savings_amount is None or interest_rate is None:
+    if current_balance is None or monthly_deposit is None or interest_rate is None:
         return HttpResponseBadRequest('Required parameters are not provided')
 
-    return JsonResponse({'result': 1000})
+    monthly_balance = []
+    number_of_months = 50 * 12
+    for x in range(number_of_months):
+        current_balance = (current_balance + monthly_deposit) * (interest_rate / 100)
+        monthly_balance.append(current_balance)
+
+    return JsonResponse({'monthly_balance': monthly_balance})

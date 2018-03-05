@@ -6,75 +6,45 @@ from parameterized import parameterized
 # Results tested against https://www.thecalculatorsite.com/finance/calculators/compoundinterestcalculator.php#compoundinterval
 # However due to rounding issues they were slightly adjusted < £1
 class InterestCalculatorTestCase(TestCase):
+
     def setUp(self):
         pass
 
-    def test_calculate_monthly(self):
-        request = {
+    @parameterized.expand([
+        ('monthly', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1,
             'compoundPeriod': 'monthly',
             'inputCurrency': 'GBP',
             'resultCurrency': 'GBP'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 200)
-
-        json_response = json.loads(response.content)
-        monthly_balance = json_response['monthly_balance']
-
-        self.assertEqual(len(monthly_balance), 600)
-        self.assertEqual(monthly_balance[0], 110.09)
-        self.assertEqual(monthly_balance[-1], 77886.61)
-
-    def test_calculate_yearly(self):
-        request = {
+        }, 110.09, 77886.61),
+        ('yearly', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1,
             'compoundPeriod': 'yearly',
             'inputCurrency': 'GBP',
             'resultCurrency': 'GBP'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 200)
-
-        json_response = json.loads(response.content)
-        monthly_balance = json_response['monthly_balance']
-
-        self.assertEqual(len(monthly_balance), 600)
-        self.assertEqual(monthly_balance[0], 110.00)
-        self.assertEqual(monthly_balance[-1], 77791.25)
-
-    def test_calculate_quarterly(self):
-        request = {
+        }, 110.00, 77791.25),
+        ('quarterly', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1,
             'compoundPeriod': 'quarterly',
             'inputCurrency': 'GBP',
             'resultCurrency': 'GBP'
-        }
-        response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
-        self.assertEqual(response.status_code, 200)
-
-        json_response = json.loads(response.content)
-        monthly_balance = json_response['monthly_balance']
-
-        self.assertEqual(len(monthly_balance), 600)
-        self.assertEqual(monthly_balance[0], 110.00)
-        self.assertEqual(monthly_balance[-1], 77869.08)
-
-    def test_calculate_currency(self):
-        request = {
+        }, 110.00, 77869.08),
+        ('currency', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1,
             'compoundPeriod': 'monthly',
             'inputCurrency': 'GBP',
             'resultCurrency': 'USD'
-        }
+        }, 152.11, 107615.93)
+    ])
+    def test_calculate(self, name, request, first_expected_val, last_expected_val):
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
@@ -82,8 +52,8 @@ class InterestCalculatorTestCase(TestCase):
         monthly_balance = json_response['monthly_balance']
 
         self.assertEqual(len(monthly_balance), 600)
-        self.assertEqual(monthly_balance[0], 152.11)
-        self.assertEqual(monthly_balance[-1], 107615.93)
+        self.assertEqual(monthly_balance[0], first_expected_val)
+        self.assertEqual(monthly_balance[-1], last_expected_val)
 
     @parameterized.expand([
         ('current_balance', { 'monthlyDeposit': 100, 'interestRate': 1, 'compoundPeriod': 'quarterly' }),

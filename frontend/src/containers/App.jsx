@@ -11,6 +11,10 @@ const mapStateToProps = (state, props) => ({
 	resultCurrency: state.app.resultCurrency,
 	loading: state.app.loading,
 	futureMonthlyBalance: state.app.futureMonthlyBalance,
+	error: null,
+	finalBalance: state.app.futureMonthlyBalance.length > 0
+		? state.app.futureMonthlyBalance[state.app.futureMonthlyBalance.length - 1]
+		: null,
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

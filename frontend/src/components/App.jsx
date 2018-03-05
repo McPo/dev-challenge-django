@@ -127,6 +127,20 @@ const App = props => <div className="container">
             </div>
         </div>
     </div>
+    {
+        !props.finalBalance ? null : (
+            <div className="alert alert-info" role="alert">
+                Final Balance: { props.finalBalance } ({ props.resultCurrency })
+            </div>
+        )
+    }
+     {
+        !props.error ? null : (
+            <div className="alert alert-danger" role="alert">
+                { props.error }
+            </div>
+        )
+    }
     <div className="row">
         <div className="col">
             <div className="card bg-dark text-white">
@@ -138,7 +152,7 @@ const App = props => <div className="container">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Balance</th>
+                                        <th scope="col">Balance ({ props.resultCurrency })</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -172,6 +186,8 @@ App.propTypes = {
     ]),
     loading: PropTypes.bool.isRequired,
     futureMonthlyBalance: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    finalBalance: PropTypes.string,
+    error: PropTypes.string,
     onCurrentBalanceChange: PropTypes.func.isRequired,
     onMonthlyDepositChange: PropTypes.func.isRequired,
     onInterestRateChange: PropTypes.func.isRequired,

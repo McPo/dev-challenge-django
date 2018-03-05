@@ -11,6 +11,30 @@ class InterestCalculatorTestCase(TestCase):
         pass
 
     @parameterized.expand([
+        ('current_balance', {
+            'currentBalance': 100,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'monthly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
+        }, 200.17, 78035.00),
+        ('monthly_deposit', {
+            'currentBalance': 10,
+            'monthlyDeposit': 1000,
+            'interestRate': 1,
+            'compoundPeriod': 'monthly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
+        }, 1010.84, 778718.60),
+        ('interest_rate', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 10,
+            'compoundPeriod': 'monthly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
+        }, 110.92, 1748333.04),
         ('monthly', {
             'currentBalance': 10,
             'monthlyDeposit': 100,

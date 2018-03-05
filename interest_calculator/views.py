@@ -6,6 +6,14 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
+supported_compound_periods = ['monthly', 'quarterly', 'yearly']
+supported_currencies = [
+    'AUD', 'BGN', 'BRL','CAD','CHF','CNY','CZK','DKK','GBP',
+    'HKD','HRK','HUF', 'IDR','ILS','INR','ISK','JPY','KRW',
+    'MXN','MYR','NOK','NZD','PHP','PLN','RON', 'RUB','SEK',
+    'SGD','THB','TRY','USD','ZAR'
+]
+
 @require_POST
 @csrf_exempt
 def calculate(request):
@@ -20,7 +28,14 @@ def calculate(request):
     # Quick way to make sure parameters exist, are of the correct type and within the right range
     # Should probably be using django form validators
     try:
-        if current_balance < 0 or monthly_deposit < 0 or interest_rate < 0 or not compound_period in ['monthly', 'quarterly', 'yearly']:
+        if (
+            current_balance < 0
+            or monthly_deposit < 0
+            or interest_rate < 0
+            or not compound_period in supported_compound_periods
+            or not input_currency in supported_currencies
+            or not result_currency in supported_currencies
+        ):
             return HttpResponseBadRequest('Invalid or missing parameters')
     except:
         return HttpResponseBadRequest('Invalid or missing parameters')

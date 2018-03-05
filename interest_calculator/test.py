@@ -83,25 +83,47 @@ class InterestCalculatorTestCase(TestCase):
         ('current_balance', {
             'monthlyDeposit': 100,
             'interestRate': 1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('monthly_deposit', {
             'currentBalance': 10,
             'interestRate': 1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('interest_rate', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('compound_period', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
-            'interestRate': 1
+            'interestRate': 1,
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
+        }),
+        ('input_currency', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly',
+            'resultCurrency': 'GBP'
+        }),
+        ('result_currency', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
         })
     ])
-    def test_calculate_missing_current_balance(self, name, request):
+    def test_calculate_missing(self, name, request):
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 400)
 
@@ -110,24 +132,48 @@ class InterestCalculatorTestCase(TestCase):
             'currentBalance': -1,
             'monthlyDeposit': 100,
             'interestRate': 1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('monthly_deposit', {
             'currentBalance': 10,
             'monthlyDeposit': -1, 'interestRate': 1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('interest_rate', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': -1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('compound_period', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1,
-            'compoundPeriod': 'daily'
+            'compoundPeriod': 'daily',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
+        }),
+        ('input_currency', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'ABC',
+            'resultCurrency': 'GBP'
+        }),
+        ('result_currency', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'ABC'
         })
     ])
     def test_calculate_invalid_range(self, name, request):
@@ -139,25 +185,49 @@ class InterestCalculatorTestCase(TestCase):
             'currentBalance': '10',
             'monthlyDeposit': 100,
             'interestRate': 1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('monthly_deposit', {
             'currentBalance': 10,
             'monthlyDeposit': '100',
             'interestRate': 1,
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('interest_rate', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': '1',
-            'compoundPeriod': 'quarterly'
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
         }),
         ('compound_period', {
             'currentBalance': 10,
             'monthlyDeposit': 100,
             'interestRate': 1,
-            'compoundPeriod': 0
+            'compoundPeriod': 0,
+            'inputCurrency': 'GBP',
+            'resultCurrency': 'GBP'
+        }),
+        ('input_currency', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 'quarterly',
+            'inputCurrency': 0,
+            'resultCurrency': 'GBP'
+        }),
+        ('result_currency', {
+            'currentBalance': 10,
+            'monthlyDeposit': 100,
+            'interestRate': 1,
+            'compoundPeriod': 0,
+            'inputCurrency': 'GBP',
+            'resultCurrency': 0
         })
     ])
     def test_calculate_invalid_type(self, name, request):

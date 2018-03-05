@@ -146,15 +146,17 @@ const App = props => <div className="container">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">Date</th>
                                         <th scope="col">Balance ({ props.resultCurrency })</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        props.futureMonthlyBalance.map((b, i) => (
-                                            <tr>
+                                        props.futureMonthlyBalance.map((m, i) => (
+                                            <tr key={ m.date+m.balance }>
                                                 <th scope="row">{ i + 1 }</th>
-                                                <td>{ b }</td>
+                                                <td>{ m.date }</td>
+                                                <td>{ m.balance }</td>
                                             </tr>
                                         ))
                                     }
@@ -179,7 +181,10 @@ App.propTypes = {
         'SGD','THB','TRY','USD','ZAR'
     ]),
     loading: PropTypes.bool.isRequired,
-    futureMonthlyBalance: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+    futureMonthlyBalance: PropTypes.arrayOf(PropTypes.shape({
+        date: PropTypes.string.isRequired,
+        balance: PropTypes.string.isRequired
+    }).isRequired).isRequired,
     finalBalance: PropTypes.string,
     error: PropTypes.string,
     onCurrentBalanceChange: PropTypes.func.isRequired,

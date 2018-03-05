@@ -10,11 +10,15 @@ const mapStateToProps = (state, props) => ({
 	compoundPeriod: state.app.compoundPeriod,
 	resultCurrency: state.app.resultCurrency,
 	loading: state.app.loading,
-	futureMonthlyBalance: state.app.futureMonthlyBalance,
+	futureMonthlyBalance: state.app.futureMonthlyBalance.map((b,i) => {
+		const d = new Date(state.app.startDate);
+		d.setMonth(d.getMonth() + i);
+		return { balance: b.toFixed(2), date: d.toDateString() }
+	}),
 	error: null,
 	finalBalance: state.app.futureMonthlyBalance.length > 0
-		? state.app.futureMonthlyBalance[state.app.futureMonthlyBalance.length - 1]
-		: null,
+		? state.app.futureMonthlyBalance[state.app.futureMonthlyBalance.length - 1].toFixed(2)
+		: null
 });
 
 const mapDispatchToProps = (dispatch, props) => ({

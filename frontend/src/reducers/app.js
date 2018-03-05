@@ -1,4 +1,5 @@
 export default (state = {
+    startDate: new Date(),
     currentBalance: 0,
     monthlyDeposit: 0,
     interestRate: 0,
@@ -11,6 +12,7 @@ export default (state = {
         case 'CALCULATE_FUTURE_MONTHLY_BALANCE_PENDING':
             return {
                 ...state,
+                startDate: new Date(),
                 currentBalance: action.payload.currentBalance,
                 monthlyDeposits: action.payload.monthlyDeposits,
                 interestRate: action.payload.interestRate,

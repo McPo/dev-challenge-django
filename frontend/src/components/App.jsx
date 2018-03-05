@@ -28,9 +28,6 @@ const App = props => <div className="container">
                                                 <span className="input-group-text" id="current-balance-addon">£</span>
                                             </div>
                                             <input type="number" min="0" defaultValue={ props.currentBalance } onChange={ props.onCurrentBalanceChange } id="current-balace" className="form-control" aria-describedby="current-balance-addon" />
-                                            <div className="input-group-append">
-                                                <span className="input-group-text" id="current-balance-addon">.00</span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -44,9 +41,6 @@ const App = props => <div className="container">
                                                 <span className="input-group-text" id="monthly-deposit-addon">£</span>
                                             </div>
                                             <input type="number" min="0" defaultValue={ props.monthlyDeposit } onChange={ props.onMonthlyDepositChange } id="monthly-deposit" className="form-control" aria-describedby="monthly-deposit-addon" />
-                                            <div className="input-group-append">
-                                                <span className="input-group-text" id="monthly-deposit-addon">.00</span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

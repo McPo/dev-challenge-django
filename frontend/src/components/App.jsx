@@ -10,7 +10,7 @@ const App = props => <div className="container">
             </header>
         </div>
     </div>
-    <div className="row">
+    <div className="row sticky-top">
         <div className="col">
             <div className="card">
                 <div className="card-header">Input</div>
@@ -121,10 +121,13 @@ const App = props => <div className="container">
             </div>
         </div>
     </div>
+    <div className="alert alert-info" role="alert">
+        Interest applied monthly, compounded at specified periods. Does not consider tax or inflation of deposits.
+    </div>
     {
         !props.finalBalance ? null : (
-            <div className="alert alert-info" role="alert">
-                Final Balance: { props.finalBalance } ({ props.resultCurrency })
+            <div className="alert alert-success" role="alert">
+                Expect a balance of { props.finalBalance } ({ props.resultCurrency }) after 50 years.
             </div>
         )
     }

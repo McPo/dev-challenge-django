@@ -7,6 +7,7 @@ export const calculateFutureMonthlyBalance = (currentBalance, monthlyDeposit, in
 			monthlyDeposit,
 			interestRate,
 			compoundPeriod,
+			inputCurrency: 'GBP',
 			resultCurrency
 		}).then(r => r.data.monthly_balance)
 }

@@ -1,7 +1,32 @@
 import json
+from unittest import mock
+
 from django.test import TestCase, Client
 
 from parameterized import parameterized
+
+# Mock the request.get for the currency rate from fixer
+# Taken from https://stackoverflow.com/a/28507806/1167880
+def mocked_requests_get(*args, **kwargs):
+    class MockResponse:
+        def __init__(self, json_data, status_code):
+            self.json_data = json_data
+            self.status_code = status_code
+
+        def json(self):
+            return self.json_data
+
+    expected_url = 'https://api.fixer.io/latest?base=%s&symbols=%s' % ('GBP', 'USD')
+    if args[0] == expected_url:
+        return MockResponse({
+            'base': 'GBP',
+            'date': '2018-03-05',
+            'rates': {
+                'USD': 1.3817
+            }
+        }, 200)
+
+    return MockResponse(None, 404)
 
 # Results tested against https://www.thecalculatorsite.com/finance/calculators/compoundinterestcalculator.php#compoundinterval
 # However due to rounding issues they were slightly adjusted < £1
@@ -68,7 +93,8 @@ class InterestCalculatorTestCase(TestCase):
             'resultCurrency': 'USD'
         }, 152.11, 107615.93)
     ])
-    def test_calculate(self, name, request, first_expected_val, last_expected_val):
+    @mock.patch('requests.get', side_effect=mocked_requests_get)
+    def test_calculate(self, name, request, first_expected_val, last_expected_val, mock_get):
         response = self.client.post('/calculate/', json.dumps(request), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 

@@ -1,11 +1,12 @@
 import request from "axios"
 
-export const calculateFutureMonthlyBalance = (currentBalance, monthlyDeposit, interestRate, compoundPeriod) => {
+export const calculateFutureMonthlyBalance = (currentBalance, monthlyDeposit, interestRate, compoundPeriod, resultCurrency) => {
 	return request
 		.post("/calculate/", {
 			currentBalance,
 			monthlyDeposit,
 			interestRate,
-			compoundPeriod
+			compoundPeriod,
+			resultCurrency
 		}).then(r => r.data.monthly_balance)
 }

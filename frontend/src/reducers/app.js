@@ -3,6 +3,7 @@ export default (state = {
     monthlyDeposit: 0,
     interestRate: 0,
     compoundPeriod: 'monthly',
+    resultCurrency: 'GBP',
     loading: false,
     futureMonthlyBalance: []
 }, action) => {
@@ -14,6 +15,7 @@ export default (state = {
                 monthlyDeposits: action.payload.monthlyDeposits,
                 interestRate: action.payload.interestRate,
                 compoundPeriod: action.payload.compoundPeriod,
+                resultCurrency: action.payload.resultCurrency,
                 loading: true,
                 futureMonthlyBalance: []
             }

@@ -6,10 +6,12 @@ export default (state = {
     compoundPeriod: 'monthly',
     resultCurrency: 'GBP',
     loading: false,
-    futureMonthlyBalance: []
+    futureMonthlyBalance: [],
+    error: null
 }, action) => {
 	switch (action.type) {
         case 'CALCULATE_FUTURE_MONTHLY_BALANCE_PENDING':
+            // Prefer to form explicit contract, as opposed to { ...payload }
             return {
                 ...state,
                 startDate: new Date(),
@@ -19,6 +21,7 @@ export default (state = {
                 compoundPeriod: action.payload.compoundPeriod,
                 resultCurrency: action.payload.resultCurrency,
                 loading: true,
+                error: null,
                 futureMonthlyBalance: []
             }
 		case 'CALCULATE_FUTURE_MONTHLY_BALANCE_FULFILLED':
@@ -27,6 +30,8 @@ export default (state = {
                 loading: false,
                 futureMonthlyBalance: action.payload
             };
+        case 'CALCULATE_FUTURE_MONTHLY_BALANCE_REJECTED':
+            return { ...state, error: action.payload.response.data };
 		default:
 			return state;
 	}

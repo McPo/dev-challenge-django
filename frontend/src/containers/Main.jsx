@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => ({
 		d.setMonth(d.getMonth() + i);
 		return { balance: b.toFixed(2), date: d.toDateString() }
 	}),
-	error: null,
+	error: state.main.error,
 	finalBalance: state.main.futureMonthlyBalance.length > 0
 		? state.main.futureMonthlyBalance[state.main.futureMonthlyBalance.length - 1].toFixed(2)
 		: null

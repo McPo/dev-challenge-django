@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Main from '../components/Main';
 
-import { calculateFutureMonthlyBalance } from '../actions/main';
+import { calculateFutureMonthlyBalance, inputFormError } from '../actions/main';
 
 const mapStateToProps = (state, props) => ({
 	currentBalance: state.main.currentBalance,
@@ -23,13 +23,25 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
 	onCalculateFutureMonthlyBalance: (currentBalance, monthlyDeposit, interestRate, compoundPeriod, resultCurrency) => {
-		dispatch(calculateFutureMonthlyBalance(
-			currentBalance,
-			monthlyDeposit,
-			interestRate,
-			compoundPeriod,
-			resultCurrency
-		));
+		const validateNumber = num => typeof num === 'number' && num >= 0;
+		if (validateNumber(currentBalance) && validateNumber(monthlyDeposit) && validateNumber(interestRate)) {
+			dispatch(calculateFutureMonthlyBalance(
+				currentBalance,
+				monthlyDeposit,
+				interestRate,
+				compoundPeriod,
+				resultCurrency
+			));
+		} else {
+			dispatch(inputFormError(
+				currentBalance,
+				monthlyDeposit,
+				interestRate,
+				compoundPeriod,
+				resultCurrency,
+				'Invalid Input'
+			));
+		}
 	}
 });
 

@@ -38,6 +38,19 @@ export default (state = {
                 error: action.payload.response.data,
                 futureMonthlyBalance: []
             };
+        case 'INPUT_FORM_ERROR':
+            return {
+                ...state,
+                startDate: null,
+                currentBalance: action.payload.currentBalance,
+                monthlyDeposits: action.payload.monthlyDeposits,
+                interestRate: action.payload.interestRate,
+                compoundPeriod: action.payload.compoundPeriod,
+                resultCurrency: action.payload.resultCurrency,
+                loading: false,
+                error: action.payload.error,
+                futureMonthlyBalance: []
+            };
 		default:
 			return state;
 	}

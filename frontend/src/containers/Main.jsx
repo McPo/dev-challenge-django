@@ -23,7 +23,13 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
 	onCalculateFutureMonthlyBalance: (currentBalance, monthlyDeposit, interestRate, compoundPeriod, resultCurrency) => {
-		dispatch(calculateFutureMonthlyBalance(currentBalance, monthlyDeposit, interestRate, compoundPeriod, resultCurrency));
+		dispatch(calculateFutureMonthlyBalance(
+			currentBalance,
+			monthlyDeposit,
+			interestRate,
+			compoundPeriod,
+			resultCurrency
+		));
 	}
 });
 
@@ -33,23 +39,53 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 	...ownProps,
 	onCurrentBalanceChange: event => {
 		const value = parseFloat(event.target.value);
-		dispatchProps.onCalculateFutureMonthlyBalance(value, stateProps.monthlyDeposit, stateProps.interestRate, stateProps.compoundPeriod, stateProps.resultCurrency);
+		dispatchProps.onCalculateFutureMonthlyBalance(
+			value,
+			stateProps.monthlyDeposit,
+			stateProps.interestRate,
+			stateProps.compoundPeriod,
+			stateProps.resultCurrenc
+		);
 	},
 	onMonthlyDepositChange: event => {
 		const value = parseFloat(event.target.value);
-		dispatchProps.onCalculateFutureMonthlyBalance(stateProps.currentBalance, value, stateProps.interestRate, stateProps.compoundPeriod, stateProps.resultCurrency);
+		dispatchProps.onCalculateFutureMonthlyBalance(
+			stateProps.currentBalance,
+			value,
+			stateProps.interestRate,
+			stateProps.compoundPeriod,
+			stateProps.resultCurrency
+		);
 	},
 	onInterestRateChange: event => {
 		const value = parseFloat(event.target.value);
-		dispatchProps.onCalculateFutureMonthlyBalance(stateProps.currentBalance, stateProps.monthlyDeposit, value, stateProps.compoundPeriod, stateProps.resultCurrency);
+		dispatchProps.onCalculateFutureMonthlyBalance(
+			stateProps.currentBalance,
+			stateProps.monthlyDeposit,
+			value,
+			stateProps.compoundPeriod,
+			stateProps.resultCurrency
+		);
 	},
 	onCompoundPeriodChange: event => {
 		const value = event.target.value;
-		dispatchProps.onCalculateFutureMonthlyBalance(stateProps.currentBalance, stateProps.monthlyDeposit, stateProps.interestRate, value, stateProps.resultCurrency);
+		dispatchProps.onCalculateFutureMonthlyBalance(
+			stateProps.currentBalance,
+			stateProps.monthlyDeposit,
+			stateProps.interestRate,
+			value,
+			stateProps.resultCurrency
+		);
 	},
 	onResultCurrencyChange: event => {
 		const value = event.target.value;
-		dispatchProps.onCalculateFutureMonthlyBalance(stateProps.currentBalance, stateProps.monthlyDeposit, stateProps.interestRate, stateProps.compoundPeriod, value);
+		dispatchProps.onCalculateFutureMonthlyBalance(
+			stateProps.currentBalance,
+			stateProps.monthlyDeposit,
+			stateProps.interestRate,
+			stateProps.compoundPeriod,
+			value
+		);
 	}
 });
 

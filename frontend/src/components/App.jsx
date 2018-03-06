@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import '../styles/App.css';
 
 import InputForm from './InputForm';
+import ResultsTable from './ResultsTable';
 
 const App = props => <div className="container">
     <div className="row">
@@ -55,29 +56,10 @@ const App = props => <div className="container">
             <div className="card bg-dark text-white">
                 <div className="card-header">Results</div>
                 <div className="card-body">
-                    {
-                        props.futureMonthlyBalance.length ?
-                            <table className="table table-striped table-dark">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Balance ({ props.resultCurrency })</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        props.futureMonthlyBalance.map((m, i) => (
-                                            <tr key={ m.date+m.balance }>
-                                                <th scope="row">{ i + 1 }</th>
-                                                <td>{ m.date }</td>
-                                                <td>{ m.balance }</td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table> : <div className="alert alert-dark" role="alert">No Results</div>
-                    }
+                    <ResultsTable
+                        resultCurrency={ props.resultCurrency }
+                        futureMonthlyBalance={ props.futureMonthlyBalance }
+                    />
                 </div>
             </div>
         </div>
@@ -86,11 +68,8 @@ const App = props => <div className="container">
 
 App.propTypes = {
 	...InputForm.propTypes,
+	...ResultsTable.propTypes,
     loading: PropTypes.bool.isRequired,
-    futureMonthlyBalance: PropTypes.arrayOf(PropTypes.shape({
-        date: PropTypes.string.isRequired,
-        balance: PropTypes.string.isRequired
-    }).isRequired).isRequired,
     finalBalance: PropTypes.string,
     error: PropTypes.string,
 };

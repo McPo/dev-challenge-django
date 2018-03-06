@@ -34,7 +34,7 @@ const Main = props => <div className="container">
         </div>
     </div>
     <div className="alert alert-info" role="alert">
-        Interest applied monthly, compounded at specified periods. Does not consider tax or inflation of deposits.
+        Deposit added at end of month, before applying interest. Interest is compounded at the specified periods. Does not consider tax or inflation of deposits.
     </div>
     {
         !props.finalBalance ? null : (

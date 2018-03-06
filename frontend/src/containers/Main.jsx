@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
-import Main from '../components/Main';
+import moment from 'moment';
 
+import Main from '../components/Main';
 import { calculateFutureMonthlyBalance, inputFormError } from '../actions/main';
 
 const mapStateToProps = (state, props) => ({
@@ -14,7 +15,7 @@ const mapStateToProps = (state, props) => ({
 		// Might be better to pass this down in API
 		const d = new Date(state.main.startDate);
 		d.setMonth(d.getMonth() + i);
-		return { balance: b.toFixed(2), date: d.toDateString() }
+		return { balance: b.toFixed(2), date: moment(d).format("MMMM YYYY") }
 	}),
 	error: state.main.error,
 	finalBalance: state.main.futureMonthlyBalance.length > 0

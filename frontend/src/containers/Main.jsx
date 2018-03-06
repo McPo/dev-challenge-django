@@ -44,7 +44,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 			stateProps.monthlyDeposit,
 			stateProps.interestRate,
 			stateProps.compoundPeriod,
-			stateProps.resultCurrenc
+			stateProps.resultCurrency
 		);
 	},
 	onMonthlyDepositChange: event => {

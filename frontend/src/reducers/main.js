@@ -31,7 +31,13 @@ export default (state = {
                 futureMonthlyBalance: action.payload
             };
         case 'CALCULATE_FUTURE_MONTHLY_BALANCE_REJECTED':
-            return { ...state, error: action.payload.response.data };
+            return {
+                ...state,
+                startDate: null,
+                loading: false,
+                error: action.payload.response.data,
+                futureMonthlyBalance: []
+            };
 		default:
 			return state;
 	}

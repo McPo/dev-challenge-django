@@ -11,6 +11,7 @@ const mapStateToProps = (state, props) => ({
 	resultCurrency: state.main.resultCurrency,
 	loading: state.main.loading,
 	futureMonthlyBalance: state.main.futureMonthlyBalance.map((b,i) => {
+		// Might be better to pass this down in API
 		const d = new Date(state.main.startDate);
 		d.setMonth(d.getMonth() + i);
 		return { balance: b.toFixed(2), date: d.toDateString() }
@@ -23,6 +24,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch, props) => ({
 	onCalculateFutureMonthlyBalance: (currentBalance, monthlyDeposit, interestRate, compoundPeriod, resultCurrency) => {
+		// Validate the input locally, if valid send to server
 		const validateNumber = num => typeof num === 'number' && num >= 0;
 		if (validateNumber(currentBalance) && validateNumber(monthlyDeposit) && validateNumber(interestRate)) {
 			dispatch(calculateFutureMonthlyBalance(

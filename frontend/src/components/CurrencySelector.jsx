@@ -15,7 +15,7 @@ const InputForm = props => (
 );
 
 InputForm.propTypes = {
-    defaultValue: PropTypes.oneOf(supportedCurrency)
+    value: PropTypes.oneOf(supportedCurrency)
 };
 
 export default InputForm;

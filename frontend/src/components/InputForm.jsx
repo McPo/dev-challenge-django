@@ -16,7 +16,7 @@ const InputForm = props => (
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="current-balance-addon">£</span>
                             </div>
-                            <input type="number" min="0" defaultValue={ props.currentBalance } onChange={ props.onCurrentBalanceChange } id="current-balace" className="form-control" aria-describedby="current-balance-addon" />
+                            <input type="number" min="0" value={ props.currentBalance } onChange={ props.onCurrentBalanceChange } id="current-balace" className="form-control" aria-describedby="current-balance-addon" />
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ const InputForm = props => (
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="monthly-deposit-addon">£</span>
                             </div>
-                            <input type="number" min="0" defaultValue={ props.monthlyDeposit } onChange={ props.onMonthlyDepositChange } id="monthly-deposit" className="form-control" aria-describedby="monthly-deposit-addon" />
+                            <input type="number" min="0" value={ props.monthlyDeposit } onChange={ props.onMonthlyDepositChange } id="monthly-deposit" className="form-control" aria-describedby="monthly-deposit-addon" />
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ const InputForm = props => (
                     </div>
                     <div className="row">
                         <div className="input-group">
-                            <input type="number" min="0" defaultValue={ props.interestRate } onChange={ props.onInterestRateChange } id="interest-rate" className="form-control" aria-describedby="interest-rate-addon" />
+                            <input type="number" min="0" value={ props.interestRate } onChange={ props.onInterestRateChange } id="interest-rate" className="form-control" aria-describedby="interest-rate-addon" />
                             <div className="input-group-append">
                                 <span className="input-group-text" id="interest-rate-addon">%</span>
                             </div>
@@ -52,7 +52,7 @@ const InputForm = props => (
                     </div>
                     <div className="row">
                         <div className="input-group">
-                            <select defaultValue={ props.compoundPeriod } onChange={ props.onCompoundPeriodChange } id="compound-period" className="custom-select" >
+                            <select value={ props.compoundPeriod } onChange={ props.onCompoundPeriodChange } id="compound-period" className="custom-select" >
                                 <option value="monthly">Month</option>
                                 <option value="quarterly">Quarterly</option>
                                 <option value="yearly">Year</option>
@@ -66,7 +66,7 @@ const InputForm = props => (
                     </div>
                     <div className="row">
                         <div className="input-group">
-                            <CurrencySelector defaultValue={ props.resultCurrency } onChange={ props.onResultCurrencyChange } id="result-currency"/>
+                            <CurrencySelector value={ props.resultCurrency } onChange={ props.onResultCurrencyChange } id="result-currency"/>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ const InputForm = props => (
 );
 
 InputForm.propTypes = {
-	resultCurrency: CurrencySelector.propTypes.defaultValue,
+	resultCurrency: CurrencySelector.propTypes.value,
     currentBalance: PropTypes.number.isRequired,
 	monthlyDeposit: PropTypes.number.isRequired,
 	interestRate: PropTypes.number.isRequired,

@@ -1,23 +1,23 @@
 import { connect } from 'react-redux';
-import App from '../components/App';
+import Main from '../components/Main';
 
-import { calculateFutureMonthlyBalance } from '../actions/app';
+import { calculateFutureMonthlyBalance } from '../actions/main';
 
 const mapStateToProps = (state, props) => ({
-	currentBalance: state.app.currentBalance,
-	monthlyDeposit: state.app.monthlyDeposit,
-	interestRate: state.app.interestRate,
-	compoundPeriod: state.app.compoundPeriod,
-	resultCurrency: state.app.resultCurrency,
-	loading: state.app.loading,
-	futureMonthlyBalance: state.app.futureMonthlyBalance.map((b,i) => {
-		const d = new Date(state.app.startDate);
+	currentBalance: state.main.currentBalance,
+	monthlyDeposit: state.main.monthlyDeposit,
+	interestRate: state.main.interestRate,
+	compoundPeriod: state.main.compoundPeriod,
+	resultCurrency: state.main.resultCurrency,
+	loading: state.main.loading,
+	futureMonthlyBalance: state.main.futureMonthlyBalance.map((b,i) => {
+		const d = new Date(state.main.startDate);
 		d.setMonth(d.getMonth() + i);
 		return { balance: b.toFixed(2), date: d.toDateString() }
 	}),
 	error: null,
-	finalBalance: state.app.futureMonthlyBalance.length > 0
-		? state.app.futureMonthlyBalance[state.app.futureMonthlyBalance.length - 1].toFixed(2)
+	finalBalance: state.main.futureMonthlyBalance.length > 0
+		? state.main.futureMonthlyBalance[state.main.futureMonthlyBalance.length - 1].toFixed(2)
 		: null
 });
 
@@ -53,4 +53,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Main);

@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
+import { Router, hashHistory } from 'react-router';
 
+import routes from './routes';
 import reducers from './reducers';
-import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import './styles/index.css'
@@ -18,5 +19,10 @@ export const store = createStore(
 	)
 );
 
-ReactDOM.render(<Provider store={ store }><App /></Provider>, document.getElementById('root'));
+ReactDOM.render((
+	<Provider store={ store }>
+		<Router history={ hashHistory } routes={ routes } />
+	</Provider>
+), document.getElementById('root'));
+
 registerServiceWorker();
